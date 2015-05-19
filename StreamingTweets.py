@@ -18,9 +18,10 @@ class listener (StreamListener):
             userid = data.split('"user":{"id":')[1].split(',"id_str":"')[0]
             username = data.split(',"name":"')[1].split('","screen_name')[0]
             usrescname = data.split(',"screen_name":"')[1].split('","location')[0]
+            tctime = data.split('"created_at":"')[1].split('","id')[0]
+            tm = time.strptime("30 Nov 00", "%d %b %y")
 
-
-            saveThis = tweetid+'::'+userid+'::'+username+'::'+usrescname+'::'+str(time.time())
+            saveThis = tctime+'::'+tm#str(time.time())+'::'+str(time.localtime())#tweetid+'::'+userid+'::'+username+'::'+usrescname+'::'+str(time.localtime())
 #+'::'+tweet
             print(saveThis)
 #            saveFile = open('twitDB.csv', 'a')
