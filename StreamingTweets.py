@@ -11,11 +11,17 @@ asecret = '246pWuh4542CIF7iNQd5rbuMyTpOlCUuryCVkQffUKR3p'
 class listener (StreamListener):
     def on_data(self, data):
 #        try:
-#            print(data)
+            print(data)
 
+            tweetid = data.split(',"id_str":"')[1].split('","text')[0]
             tweet = data.split(',"text":"')[1].split('","source')[0]
-            saveThis = str(time.time())+'::'+tweet
+            userid = data.split('"user":{"id":')[1].split(',"id_str":"')[0]
+            username = data.split(',"name":"')[1].split('","screen_name')[0]
+            usrescname = data.split(',"screen_name":"')[1].split('","location')[0]
 
+
+            saveThis = tweetid+'::'+userid+'::'+username+'::'+usrescname+'::'+str(time.time())
+#+'::'+tweet
             print(saveThis)
 #            saveFile = open('twitDB.csv', 'a')
 #            saveFile.writable(data)
