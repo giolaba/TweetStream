@@ -10,29 +10,36 @@ asecret = '246pWuh4542CIF7iNQd5rbuMyTpOlCUuryCVkQffUKR3p'
 
 class listener (StreamListener):
     def on_data(self, data):
-#        try:
-            print(data)
+            try:
+    #            print(data)
 
-            tweetid = data.split(',"id_str":"')[1].split('","text')[0]
-            tweet = data.split(',"text":"')[1].split('","source')[0]
-            userid = data.split('"user":{"id":')[1].split(',"id_str":"')[0]
-            username = data.split(',"name":"')[1].split('","screen_name')[0]
-            usrescname = data.split(',"screen_name":"')[1].split('","location')[0]
-            tctime = data.split('"created_at":"')[1].split('","id')[0]
-            tctimetuple = time.strptime(tctime, "%a %b %d %H:%M:%S %z %Y")
-            tctimeepoch = time.mktime(tctimetuple)
+                tweetId = data.split(',"id_str":"')[1].split('","text')[0]
+                tweet = data.split(',"text":"')[1].split('","source')[0]
 
-            saveThis =tctimeepoch#+'::'+tm#tweetid+'::'+userid+'::'+username+'::'+usrescname+'::'+str(time.localtime())
-#+'::'+tweet
-            print(saveThis)
-#            saveFile = open('twitDB.csv', 'a')
-#            saveFile.writable(data)
-#            saveFile.write('\n')
-#            saveFile.close()
-            return True
-##        except BaseException:
-##            print('failed ondata,',str())
-##           time.sleep(1)
+                userId = data.split('"user":{"id":')[1].split(',"id_str":"')[0]
+                userName = data.split(',"name":"')[1].split('","screen_name')[0]
+                usreScName = data.split(',"screen_name":"')[1].split('","location')[0]
+
+                tcTime = data.split('"created_at":"')[1].split('","id')[0]
+                tcTimeTuple = time.strptime(tcTime, "%a %b %d %H:%M:%S %z %Y")
+                tcTimeEpoch = time.mktime(tcTimeTuple)
+
+                ucTime = data.split(',"created_at":"')[1].split('","utc_offset')[0]
+                ucTimeTuple = time.strptime(ucTime,"%a %b %d %H:%M:%S %z %Y")
+                ucTimeEpoch = time.mktime(ucTimeTuple)
+
+
+                saveThis =tweetId+'::'+str(tcTimeEpoch)+'::'+tweet+'::'+userId+'::'+str(ucTimeEpoch)+'::'+userName+'::'+usreScName
+
+                print(saveThis)
+                saveFile = open('twitDB.csv', 'a')
+                saveFile.write(saveThis)
+                saveFile.write('\n')
+                saveFile.close()
+                return True
+            except BaseException:
+                print('failed ondata')
+                time.sleep(1)
 
     def on_error(self, status_code):
         print(status_code)
